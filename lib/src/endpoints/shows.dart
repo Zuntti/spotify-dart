@@ -50,4 +50,18 @@ class Shows extends EndpointPaging {
     return _getPages('$_path/$showId/episodes$queryString',
         (json) => Episode.fromJson(json));
   }
+
+  Future<Episode> episode(String episodeId, {String market = ''}) async {
+    var jsonString;
+    if (market.isNotEmpty) {
+      var queryMap = {'market': market};
+      var query = _buildQuery(queryMap);
+      jsonString = await _get('v1/episodes/$episodeId?$query');
+    } else {
+      jsonString = await _get('v1/episodes/$episodeId');
+    }
+
+    var map = json.decode(jsonString);
+    return Episode.fromJson(map);
+  }
 }

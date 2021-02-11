@@ -414,7 +414,9 @@ Episode _$EpisodeFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['release_date'] as String)
     ..releaseDatePrecision = json['release_date_precision'] as String
     ..type = json['type'] as String
-    ..uri = json['uri'] as String;
+    ..uri = json['uri'] as String
+    ..publisher =
+        json['show'] == null ? '' : json['show']['publisher'] as String;
 }
 
 Track _$TrackFromJson(Map<String, dynamic> json) {
