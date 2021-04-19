@@ -54,7 +54,7 @@ class Playlists extends EndpointPaging {
     if (description != null) json['description'] = description;
 
     final playlistJson = await _api._post(url, jsonEncode(json));
-    return await Playlist.fromJson(jsonDecode(playlistJson));
+    return Playlist.fromJson(jsonDecode(playlistJson));
   }
 
   /// [trackUri] - the Spotify track uri (i.e spotify:track:4iV5W9uYEdYUVa79Axb7Rh)

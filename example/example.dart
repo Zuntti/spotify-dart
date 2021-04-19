@@ -17,7 +17,7 @@ void main() async {
   print(podcast.name);
 
   print('\nPodcast episode:');
-  var episodes = await spotify.shows.episodes('4AlxqGkkrqe0mfIx3Mi7Xt');
+  var episodes = spotify.shows.episodes('4AlxqGkkrqe0mfIx3Mi7Xt');
   var firstEpisode = (await episodes.first()).items.first;
   print(firstEpisode.name);
 

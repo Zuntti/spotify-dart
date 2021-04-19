@@ -15,8 +15,8 @@ void main() async {
   if (spotify == null) {
     exit(0);
   }
-  await _currentlyPlaying(spotify);
-  await _devices(spotify);
+  _currentlyPlaying(spotify);
+  _devices(spotify);
   //await _createPrivatePlaylist(spotify);
 
   exit(0);
@@ -64,20 +64,6 @@ void _devices(SpotifyApi spotify) async =>
       print('Listing ${devices.length} available devices:');
       print(devices.map((device) => device.name).join(', '));
     }).catchError(_prettyPrintError);
-
-void _createPrivatePlaylist(SpotifyApi spotify) async {
-  var user = await spotify.me.get();
-  await spotify.playlists
-      .createPlaylist(
-    user.id,
-    'Cool New Playlist 2',
-    description: 'Songs to test by',
-    public: false,
-  )
-      .then((playlist) {
-    print('Private playlist created!');
-  }).catchError(_prettyPrintError);
-}
 
 void _prettyPrintError(Object error) {
   if (error is SpotifyException) {

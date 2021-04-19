@@ -107,7 +107,7 @@ Future main() async {
 
   group('Show episodes', () {
     test('list', () async {
-      var episodes = await spotify.shows.episodes('4AlxqGkkrqe0mfIx3Mi7Xt');
+      var episodes = spotify.shows.episodes('4AlxqGkkrqe0mfIx3Mi7Xt');
       var firstEpisode = (await episodes.first()).items.first;
 
       expect(firstEpisode.type, 'episode');
