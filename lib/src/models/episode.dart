@@ -72,8 +72,8 @@ class Episode extends Object {
   /// The Spotify ID for the episode.
   String? uri;
 
-  /// The Spotify ID for the episode.
-  String? publisher;
+  /// The show information for the episode.
+  Show? show;
 
   factory Episode.fromJson(Map<String, dynamic> json) =>
       _$EpisodeFromJson(json);

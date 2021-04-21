@@ -412,7 +412,9 @@ Episode _$EpisodeFromJson(Map<String, dynamic> json) {
     ..releaseDatePrecision = json['release_date_precision'] as String?
     ..type = json['type'] as String?
     ..uri = json['uri'] as String?
-    ..publisher = json['publisher'] as String?;
+    ..show = json['show'] == null
+        ? null
+        : Show.fromJson(json['show'] as Map<String, dynamic>);
 }
 
 Track _$TrackFromJson(Map<String, dynamic> json) {
