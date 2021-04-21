@@ -15,23 +15,23 @@ class SpotifyApiMock extends SpotifyApiBase {
 
 class MockClient implements oauth2.Client {
   MockClient(SpotifyApiCredentials credentials,
-      {Iterator<MockHttpError> mockHttpErrors}) {
+      {Iterator<MockHttpError>? mockHttpErrors}) {
     identifier = credentials.clientId;
     secret = credentials.clientSecret;
     _mockHttpErrors = mockHttpErrors;
   }
 
   @override
-  String identifier;
+  String? identifier;
 
   @override
-  String secret;
+  String? secret;
 
-  Iterator<MockHttpError> _mockHttpErrors;
+  Iterator<MockHttpError>? _mockHttpErrors;
 
-  MockHttpError _getMockError() {
-    if (_mockHttpErrors != null && _mockHttpErrors.moveNext()) {
-      return _mockHttpErrors.current;
+  MockHttpError? _getMockError() {
+    if (_mockHttpErrors != null && _mockHttpErrors!.moveNext()) {
+      return _mockHttpErrors!.current;
     } else {
       return null;
     }
@@ -43,7 +43,7 @@ class MockClient implements oauth2.Client {
         : r'api/([A-Za-z0-9/]+)\??';
 
     var regex = RegExp(regexString);
-    var partialPath = regex.firstMatch(url.path.toString()).group(1);
+    var partialPath = regex.firstMatch(url.path.toString())!.group(1);
     var file = File('test/data/$partialPath.json');
 
     return file.readAsStringSync();
@@ -57,15 +57,15 @@ class MockClient implements oauth2.Client {
   @override
   Future<http.Response> delete(
     url, {
-    Object body,
-    Encoding encoding,
-    Map<String, String> headers,
+    Object? body,
+    Encoding? encoding,
+    Map<String, String>? headers,
   }) {
     throw 'Not implemented';
   }
 
   @override
-  Future<http.Response> get(url, {Map<String, String> headers}) async {
+  Future<http.Response> get(url, {Map<String, String>? headers}) async {
     final err = _getMockError();
     if (err != null) {
       return createErrorResponse(err);
@@ -74,19 +74,19 @@ class MockClient implements oauth2.Client {
   }
 
   @override
-  Future<http.Response> head(url, {Map<String, String> headers}) {
+  Future<http.Response> head(url, {Map<String, String>? headers}) {
     throw 'Not implemented';
   }
 
   @override
   Future<http.Response> patch(url,
-      {Map<String, String> headers, body, Encoding encoding}) {
+      {Map<String, String>? headers, body, Encoding? encoding}) {
     throw 'Not implemented';
   }
 
   @override
   Future<http.Response> post(url,
-      {Map<String, String> headers, body, Encoding encoding}) async {
+      {Map<String, String>? headers, body, Encoding? encoding}) async {
     final err = _getMockError();
     if (err != null) {
       return createErrorResponse(err);
@@ -96,17 +96,17 @@ class MockClient implements oauth2.Client {
 
   @override
   Future<http.Response> put(url,
-      {Map<String, String> headers, body, Encoding encoding}) {
+      {Map<String, String>? headers, body, Encoding? encoding}) {
     throw 'Not implemented';
   }
 
   @override
-  Future<String> read(url, {Map<String, String> headers}) {
+  Future<String> read(url, {Map<String, String>? headers}) {
     throw 'Not implemented';
   }
 
   @override
-  Future<Uint8List> readBytes(url, {Map<String, String> headers}) {
+  Future<Uint8List> readBytes(url, {Map<String, String>? headers}) {
     throw 'Not implemented';
   }
 
@@ -125,7 +125,7 @@ class MockClient implements oauth2.Client {
       );
 
   @override
-  Future<oauth2.Client> refreshCredentials([List<String> newScopes]) async {
+  Future<oauth2.Client> refreshCredentials([List<String>? newScopes]) async {
     throw 'Not implemented';
   }
 
@@ -138,19 +138,19 @@ class MockClient implements oauth2.Client {
 
   http.Response createErrorResponse(MockHttpError error) {
     return http.Response(
-        _wrapMessageToJson(error.statusCode, error.message), error.statusCode,
+        _wrapMessageToJson(error.statusCode, error.message), error.statusCode!,
         headers: {'Content-Type': 'application/json; charset=utf-8'}
-          ..addAll(error.headers));
+          ..addAll(error.headers!));
   }
 
-  String _wrapMessageToJson(int statusCode, String message) =>
+  String _wrapMessageToJson(int? statusCode, String? message) =>
       '{ \"error\": {\"status\":$statusCode,\"message\": \"$message\"}}';
 }
 
 class MockHttpError {
-  int statusCode;
-  String message;
-  Map<String, String> headers;
+  int? statusCode;
+  String? message;
+  Map<String, String>? headers;
 
   MockHttpError({this.statusCode, this.message, this.headers}) {
     headers ??= {};

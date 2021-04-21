@@ -34,8 +34,8 @@ class Me extends EndpointPaging {
     return Player.fromJson(map);
   }
 
-  Future<Iterable<PlayHistory>> recentlyPlayed(
-      {int limit, DateTime after, DateTime before}) async {
+  Future<Iterable<PlayHistory>?> recentlyPlayed(
+      {int? limit, DateTime? after, DateTime? before}) async {
     assert(after == null || before == null,
         'Cannot specify both after and before.');
 

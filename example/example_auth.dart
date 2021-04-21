@@ -1,6 +1,7 @@
 // Copyright (c) 2020 hayribakici. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,10 +12,7 @@ void main() async {
   var keyMap = json.decode(keyJson);
 
   var credentials = SpotifyApiCredentials(keyMap['id'], keyMap['secret']);
-  var spotify = await _getUserAuthenticatedSpotifyApi(credentials);
-  if (spotify == null) {
-    exit(0);
-  }
+  var spotify = await (_getUserAuthenticatedSpotifyApi(credentials) as FutureOr<SpotifyApi>);
   _currentlyPlaying(spotify);
   _devices(spotify);
   //await _createPrivatePlaylist(spotify);
@@ -22,11 +20,11 @@ void main() async {
   exit(0);
 }
 
-Future<SpotifyApi> _getUserAuthenticatedSpotifyApi(
+Future<SpotifyApi?> _getUserAuthenticatedSpotifyApi(
     SpotifyApiCredentials credentials) async {
   print(
       'Please paste your redirect url (from your spotify application\'s redirect url):');
-  var redirect = stdin.readLineSync();
+  var redirect = stdin.readLineSync()!;
 
   var grant = SpotifyApi.authorizationCodeGrant(credentials);
   var authUri = grant.getAuthorizationUrl(Uri.parse(redirect),
@@ -47,7 +45,7 @@ Future<SpotifyApi> _getUserAuthenticatedSpotifyApi(
 }
 
 void _currentlyPlaying(SpotifyApi spotify) async =>
-    await spotify.me.currentlyPlaying().then((a) {
+    await spotify.me!.currentlyPlaying().then((a) {
       if (a == null) {
         print('Nothing currently playing.');
         return;
@@ -56,7 +54,7 @@ void _currentlyPlaying(SpotifyApi spotify) async =>
     }).catchError(_prettyPrintError);
 
 void _devices(SpotifyApi spotify) async =>
-    await spotify.me.devices().then((devices) {
+    await spotify.me!.devices().then((devices) {
       if (devices == null) {
         print('No devices currently playing.');
         return;
